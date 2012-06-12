@@ -1,0 +1,2 @@
+serviceClass: edu.utah.is6460.client.ClassAlertService
+path: BBB8D003E310D64ED0F4488FD6F8CF7C.gwt.rpc
