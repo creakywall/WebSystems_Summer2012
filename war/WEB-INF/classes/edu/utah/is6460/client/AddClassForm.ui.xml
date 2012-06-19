@@ -30,8 +30,10 @@
 		    		<label>Section</label>
 		    		<g:TextBox ui:field="sectionBox"/>
 		    	</div>
+		    	<div>
+		    		<g:Button ui:field="submitClass"/>
+		    	</div>
     		</fieldset>
     	</form>
-    	<g:Button ui:field="submitClass"/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

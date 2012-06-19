@@ -37,16 +37,11 @@ body, html{padding: 0; margin: 0;background: #B5B5B5;}
 	border-radius: 15px;
 }
 
-#addClassForm > fieldset {display: table; border: none;}
+#addClassForm > fieldset {display: table; border: none; width: 50%;}
 #addClassForm > fieldset > div {display: table-row;}
 #addClassForm > fieldset label {display: table-cell; margin: 5px; font-weight: bold; color: #50504E;}
 #addClassForm > fieldset input {display: table-cell; width: 200px; height: 20px; margin: 5px;}
-
-#addClassForm > input{
-	width: 200px;
-	height: 20px;
-	margin: 5px;
-}
+#addClassForm button {padding: 5px 10px; background: #C01B07; color: white; border: none; font-weight: bold; font-size: 14px; border-radius: 10px; float: right;}
 
 /** Example rules used by the template application (remove for your app) */
 /** Most GWT widgets already have a style name defined */
