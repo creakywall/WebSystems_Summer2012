@@ -1,20 +1,54 @@
 /** Add css rules here for your application. */
+body, html{padding: 0; margin: 0;background: #B5B5B5;}
+.center{
+	width: 960px;
+	margin: auto;
+	background: #fff;
+	color: black;
+}
+.header{
+	background: #900 url(/images/headerBck.png) top left no-repeat;
+	border-top: 10px #333 solid;
+	height: 76px;
+	border-bottom: 5px #BC9436 solid;
+}
 
+.header > .logo {
+	background: url(/images/logo.png)top left;
+	width: 200px;
+	height: 65px;
+	float: left;
+}
+
+.header > .links{
+	float: right; 
+	background: #333;
+	border-bottom-left-radius: 10px;
+	color: white;
+	padding: 5px 10px 5px 10px;
+}
+#wrapper{
+	 padding: 15px;
+}
+
+#addClassForm{
+	padding: 25px;
+	background: #E9E8E6;
+	border-radius: 15px;
+}
+
+#addClassForm > fieldset {display: table; border: none;}
+#addClassForm > fieldset > div {display: table-row;}
+#addClassForm > fieldset label {display: table-cell; margin: 5px; font-weight: bold; color: #50504E;}
+#addClassForm > fieldset input {display: table-cell; width: 200px; height: 20px; margin: 5px;}
+
+#addClassForm > input{
+	width: 200px;
+	height: 20px;
+	margin: 5px;
+}
 
 /** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
-}
-
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
-
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;

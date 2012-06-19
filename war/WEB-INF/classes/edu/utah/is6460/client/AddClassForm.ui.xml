@@ -8,12 +8,29 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<form id="addClassForm">
-    		<label>Subject</label>
-    		<g:TextBox ui:field="subjectBox"/>
-    		<label>Term</label>
-    		<g:TextBox ui:field="termBox"/>
-    		<label>Catalog</label>
-    		<g:TextBox ui:field="catalogBox"/>
+			<fieldset>
+			<span>Fill out the form below. Every field is required.</span>
+				<div>
+					<label>Email</label>
+					<g:TextBox ui:field="emailBox"/>
+				</div>
+				<div>
+		    		<label>Subject</label>
+		    		<g:TextBox ui:field="subjectBox"/>
+	    		</div>
+	    		<div>
+		    		<label>Term</label>
+		    		<g:TextBox ui:field="termBox"/>
+	    		</div>
+	    		<div>
+		    		<label>Catalog Number</label>
+		    		<g:TextBox ui:field="catalogBox"/>
+	    		</div>
+	    		<div>
+		    		<label>Section</label>
+		    		<g:TextBox ui:field="sectionBox"/>
+		    	</div>
+    		</fieldset>
     	</form>
     	<g:Button ui:field="submitClass"/>
 	</g:HTMLPanel>

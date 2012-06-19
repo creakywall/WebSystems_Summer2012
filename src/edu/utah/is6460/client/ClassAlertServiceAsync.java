@@ -6,6 +6,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * The async counterpart of <code>ClassAlertService</code>.
  */
 public interface ClassAlertServiceAsync {
-	void addClass(String term, String subject, String catalogNum,
+	void addClass(String term, String subject, String catalogNum, String email, String section,
 			AsyncCallback<String> callback);
 }

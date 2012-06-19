@@ -20,7 +20,7 @@ public class AddClassForm extends Composite implements HasText {
 	interface AddClassFormUiBinder extends UiBinder<Widget, AddClassForm> {}
 
 	@UiField Button submitClass;
-	@UiField TextBox subjectBox, termBox, catalogBox;
+	@UiField TextBox subjectBox, termBox, catalogBox, emailBox, sectionBox;
 	
 	public AddClassForm() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -32,7 +32,9 @@ public class AddClassForm extends Composite implements HasText {
 		String subject = subjectBox.getValue();
 		String term = termBox.getValue();
 		String catalog = catalogBox.getValue();
-		classAlertService.addClass(term, subject, catalog, new AsyncCallback<String>() {
+		String email = emailBox.getValue();
+		String section = sectionBox.getValue();
+		classAlertService.addClass(term, subject, catalog, email, section, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

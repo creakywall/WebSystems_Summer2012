@@ -8,5 +8,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("classAlert")
 public interface ClassAlertService extends RemoteService {
-	String addClass(String term, String subject, String catalogNum) throws IllegalArgumentException;
+	String addClass(String term, String subject, String catalogNum, String email, String section) throws IllegalArgumentException;
 }

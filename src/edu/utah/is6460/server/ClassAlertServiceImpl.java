@@ -19,7 +19,7 @@ import edu.utah.is6460.shared.FieldVerifier;
 public class ClassAlertServiceImpl extends RemoteServiceServlet implements ClassAlertService {
 	
 	@Override
-	public String addClass(String term, String subject, String catalogNum) throws IllegalArgumentException {
+	public String addClass(String term, String subject, String catalogNum, String email, String section) throws IllegalArgumentException {
 		try {
 			String urlQuery = "http://query.yahooapis.com/v1/public/yql" +
 					"?q=select%20*%20from%20html%20where%20" +
