@@ -15,6 +15,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 
 /**
  * The server side implementation of the RPC service.
@@ -67,15 +69,32 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		datastore.put(alert);
 	}
 
+	@SuppressWarnings("deprecation")
 	private String getAlert(String email) {
-		Entity e = new Entity("Alert");
+		String catalog = "";
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query q = new Query("Alert");
+		
+		q.addFilter("email", Query.FilterOperator.EQUAL, email);
+		
+		PreparedQuery pq = datastore.prepare(q);
+		
+		for (Entity result : pq.asIterable()){
+			
+			catalog = (String) result.getProperty("catalog");;
+		}
+		return catalog;
+		
+		/*Entity e = new Entity("Alert");
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		try {
 			e = datastore.get(KeyFactory.createKey("AlertGroup", email));
 		} catch (Exception ex) {
 		}
-		return e.toString();
+		return e.toString();*/
 	}
 
 	private static String readUrl(String urlString) throws Exception {

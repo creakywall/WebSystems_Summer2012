@@ -25,6 +25,7 @@ public class AddClassForm extends Composite implements HasText {
 	public AddClassForm() {
 		initWidget(uiBinder.createAndBindUi(this));
 		submitClass.setText("Add Class");
+		
 	}
 
 	@UiHandler("submitClass")
@@ -43,8 +44,12 @@ public class AddClassForm extends Composite implements HasText {
 
 			@Override
 			public void onSuccess(String result) {
-				//System.out.println(result);
 				Window.alert(result);
+				subjectBox.setValue("");
+				termBox.setValue("");
+				catalogBox.setValue("");
+				emailBox.setValue("");
+				sectionBox.setValue("");
 			}
 			
 		});
