@@ -43,7 +43,8 @@ public class AddClassForm extends Composite implements HasText {
 
 			@Override
 			public void onSuccess(String result) {
-				System.out.println(result);
+				//System.out.println(result);
+				Window.alert(result);
 			}
 			
 		});

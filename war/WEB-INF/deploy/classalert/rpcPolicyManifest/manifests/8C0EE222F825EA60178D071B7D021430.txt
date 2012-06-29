@@ -1,2 +1,0 @@
-serviceClass: edu.utah.is6460.client.GreetingService
-path: E19BB36F6350A7692EA9DDE97746B352.gwt.rpc
