@@ -1,22 +1,23 @@
 package edu.utah.is6460.server;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-import edu.utah.is6460.client.ClassAlertService;
-
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import edu.utah.is6460.client.ClassAlertService;
 
 /**
  * The server side implementation of the RPC service.
@@ -26,9 +27,25 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		ClassAlertService {
 
 	@Override
-	public String addClass(String term, String subject, String catalogNum,
-			String email, String section) throws IllegalArgumentException {
-		String db = "";
+	public String addClass(String term, String subject, String catalogNum, String email, String section) throws IllegalArgumentException {
+		Long seats = askYahoo(term, subject, catalogNum, email, section);
+		String result = "";
+		if(seats.equals(0L)){
+			storeAlert(term, subject, catalogNum, email, section);
+			//RETURN message saying that we will email them
+			result = "request saved. you will be emailed with a seat is available";
+		}else if(seats.equals(-1L)){
+			//RETURN message saying that there was an error, check input
+			result = "There was a problem finding the class. Please check your input.";
+		}else if(seats >= 1){
+			//RETURN message saying that there are currently seats available
+			result = "There is currently an opening for that class... go sign up... quick!";
+		}
+		return result;
+	}
+
+	private Long askYahoo(String term, String subject, String catalogNum, String email, String section){
+		Long seats = -1L;
 		try {
 			String urlQuery = "http://query.yahooapis.com/v1/public/yql"
 					+ "?q=select%20*%20from%20html%20where%20"
@@ -41,18 +58,26 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 					+ "%26"
 					+ "catno%3D"
 					+ URLEncoder.encode(catalogNum, "UTF-8")
-					+ "%22%20and%0A%20%20%20%20%20%20xpath%3D'%2F%2Ftable%2Ftr%5B2%5D%2Ftd%5B8%5D'&format=json&diagnostics=true&callback=cbfunc";
-			System.out.println(urlQuery);
-			System.out.println(readUrl(urlQuery));
-
-			storeAlert(term, subject, catalogNum, email, section);
-			db = getAlert(email);
+					+ "%22%20and%0A%20%20%20%20%20%20xpath%3D'%2F%2Ftable%2Ftr%5Btd%2F%2Ftext()%5Bcontains(.%2C%20%22"
+					+ URLEncoder.encode(section, "UTF-8") 
+					+ "%22)%5D%5D%2Ftd%5B8%5D'&format=xml";
+			
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(urlQuery);
+			doc.getDocumentElement().normalize();
+			NodeList nodeList = doc.getElementsByTagName("font");
+			Node node = nodeList.item(0);
+			seats = Long.valueOf(node.getTextContent());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return db;
+		
+		return seats;
+		
 	}
-
+	
 	private void storeAlert(String term, String subject, String catalogNum,
 			String email, String section) {
 		Key classalertKey = KeyFactory.createKey("AlertGroup", email);
@@ -69,7 +94,6 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		datastore.put(alert);
 	}
 
-	@SuppressWarnings("deprecation")
 	private String getAlert(String email) {
 		String catalog = "";
 		
@@ -77,12 +101,12 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		
 		Query q = new Query("Alert");
 		
-		q.addFilter("email", Query.FilterOperator.EQUAL, email);
+		//q.addFilter("email", Query.FilterOperator.EQUAL, email);
 		
 		PreparedQuery pq = datastore.prepare(q);
 		
-		for (Entity result : pq.asIterable()){
-			
+		for (Entity result : pq.asList(FetchOptions.Builder.withDefaults())){
+			//System.out.println(result);
 			catalog = (String) result.getProperty("catalog");;
 		}
 		return catalog;
@@ -96,23 +120,4 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		}
 		return e.toString();*/
 	}
-
-	private static String readUrl(String urlString) throws Exception {
-		BufferedReader reader = null;
-		try {
-			URL url = new URL(urlString);
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			StringBuffer buffer = new StringBuffer();
-			int read;
-			char[] chars = new char[1024];
-			while ((read = reader.read(chars)) != -1)
-				buffer.append(chars, 0, read);
-
-			return buffer.toString();
-		} finally {
-			if (reader != null)
-				reader.close();
-		}
-	}
-
 }
