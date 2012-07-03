@@ -16,6 +16,16 @@
     <url-pattern>/classalert/classAlert</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>RefreshAlerts</servlet-name>
+    <servlet-class>edu.utah.is6460.server.RefreshAlerts</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>RefreshAlerts</servlet-name>
+    <url-pattern>/refreshAlerts</url-pattern>
+  </servlet-mapping>  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ClassAlert.html</welcome-file>
