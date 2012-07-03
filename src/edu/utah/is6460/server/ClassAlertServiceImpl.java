@@ -1,5 +1,15 @@
 package edu.utah.is6460.server;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,9 +49,37 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 			result = "There was a problem finding the class. Please check your input.";
 		}else if(seats >= 1){
 			//RETURN message saying that there are currently seats available
+			emailMessage(email);
 			result = "There is currently an opening for that class... go sign up... quick!";
 		}
 		return result;
+	}
+
+	private void emailMessage(String email) {
+		Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+
+        String msgBody = "This is a test email from appengine";
+
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress("narfdre@gmail.com", "Class Alert"));
+            msg.addRecipient(Message.RecipientType.TO,
+                             new InternetAddress(email, "Mr. User"));
+            msg.setSubject("There is a seat available in your class");
+            msg.setText(msgBody);
+            Transport.send(msg);
+
+        } catch (AddressException e) {
+        	e.printStackTrace();
+            // ...
+        } catch (MessagingException e) {
+        	e.printStackTrace();
+            // ...
+        } catch (UnsupportedEncodingException e) {
+        	e.printStackTrace();
+        	// ...
+        }
 	}
 
 	private Long askYahoo(String term, String subject, String catalogNum, String email, String section){
