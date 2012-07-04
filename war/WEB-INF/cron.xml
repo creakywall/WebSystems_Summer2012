@@ -3,6 +3,6 @@
   <cron>
     <url>/refreshAlerts</url>
     <description>Check the class vacancy status</description>
-    <schedule>every 1 mins synchronized</schedule>
+    <schedule>every 1 hours synchronized</schedule>
   </cron>
 </cronentries>
