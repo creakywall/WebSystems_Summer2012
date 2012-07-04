@@ -37,13 +37,13 @@ public class RefreshAlerts extends HttpServlet {
 			Long seats  = ClassAlertServiceImpl.askYahoo(term, subject, catalogNum, section);
 			if(seats > 0 ){
 				String email = result.getProperty("email").toString();
-				ClassAlertServiceImpl.emailMessage(email);
+				ClassAlertServiceImpl.emailMessage(email,term,subject,catalogNum, section);
 				result.setProperty("flag", 1);
 			datastore.put(result);
 			}
 			else{
 				//String email = result.getProperty("email").toString();
-				//ClassAlertServiceImpl.emailMessage(email);
+				//ClassAlertServiceImpl.emailMessage(email,term,subject,catalogNum);
 			}
 
 		}

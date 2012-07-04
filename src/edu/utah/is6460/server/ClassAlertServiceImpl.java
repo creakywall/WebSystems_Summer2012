@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -26,6 +27,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.utah.is6460.client.ClassAlertService;
@@ -56,11 +58,25 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
-	public static void emailMessage(String email) {
+	public static void emailMessage(String email, String term, String subj,String catalogNum, String section ) {
 		Properties props = new Properties();
 		Session session = Session.getDefaultInstance(props, null);
 
-		String msgBody = "This is a test email from appengine";
+		//String msgBody = "This is a test email from appengine";
+		String mBody =(
+		"<body>" +
+		"<p>There is an available seat in " +subj+ " " + catalogNum +"-"+section + "!<br /><br />" +
+		"Details:</p>" +
+		"<ul>" +
+		"<li>Term: " + term + "</li>"+
+		"<li>Subject: " +subj+ "</li>" +
+		"<li>Catalog Number: " + catalogNum + "</li>" +
+		"</ul>" +
+		"<p>Schedule: <a href =http://www.acs.utah.edu/uofu/stu/scheduling/crse-info?term="+term+"&subj="+subj+
+			"&catno="+catalogNum+">http://www.acs.utah.edu/uofu/stu/scheduling/crse-info?term="+term+"" +
+					"&subj="+subj+"&catno="+catalogNum+"</a>" +
+		"</p>" +
+		"</body>");
 
 		try {
 			Message msg = new MimeMessage(session);
@@ -68,7 +84,8 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					email, "Mr. User"));
 			msg.setSubject("There is a seat available in your class");
-			msg.setText(msgBody);
+			//msg.setText(msgBody);
+			msg.setContent(mBody, "text/html");
 			Transport.send(msg);
 
 		} catch (AddressException e) {
