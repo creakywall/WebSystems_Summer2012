@@ -8,7 +8,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<form id="addClassForm">
-			<fieldset>
+			<fieldset style="display: inline-block; width: 350px;">
 			<span>Fill out the form below. Every field is required.</span>
 				<div>
 					<label>Email</label>
@@ -33,6 +33,9 @@
 		    	<div>
 		    		<g:Button ui:field="submitClass"/>
 		    	</div>
+    		</fieldset>
+    		<fieldset ui:field="results" class="results" style="display: inline-block; width: 350px">
+    			
     		</fieldset>
     	</form>
 	</g:HTMLPanel>

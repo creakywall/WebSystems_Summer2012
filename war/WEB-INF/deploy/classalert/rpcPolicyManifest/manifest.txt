@@ -1,3 +1,2 @@
 # Module classalert
 # RPC service class, partial path of RPC policy file
-edu.utah.is6460.client.ClassAlertService, BBB8D003E310D64ED0F4488FD6F8CF7C.gwt.rpc
