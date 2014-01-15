@@ -47,7 +47,7 @@ public class ClassAlertServiceImpl extends RemoteServiceServlet implements
 		if (seats.equals(0L)) {
 			storeAlert(term, subject, catalogNum, email, section);
 			// RETURN message saying that we will email them
-			result = "request saved. you will be emailed with a seat is available";
+			result = "request saved. you will be emailed when a seat is available";
 		} else if (seats.equals(-1L)) {
 			// RETURN message saying that there was an error, check input
 			result = "There was a problem finding the class. Please check your input.";
